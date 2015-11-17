@@ -1,0 +1,216 @@
+﻿# 单例模式
+
+标签（空格分隔）： Java设计模式
+
+---
+
+##介绍
+&#160; &#160; &#160;&#160;有时候一此类只有一个实例是相当重要的，有许多对象我们只需要一个实例，假如实例化多个，就会遇到各种各样的问题，例如错误的程序行为、过多的资料使用或不一致的结果。  
+
+&#160; &#160; &#160; &#160;在许多场景下，一个类我们只需要一个对象，例如创建应用程序的上下文Context、可管理的线程池、注册配置、连接控制台输入输出的驱动，如果在程序中有多个对象就会引起不一致的结果。
+
+&#160; &#160; &#160; &#160;单例模式可以确保一个类只有一个实例，并为之提供全局的访问方法。尽管单例模式是只有一个类的模式，但其实现有些许复杂。
+
+##使用单例模式创建类
+
+&#160; &#160; &#160; &#160;有多种方式创建单例类，接下来我们看看哪种方式最好，以最简单的开始。可以提供一个全局的变量被访问，例如：
+```
+public class SingletonEager {
+    public static SingletonEager singleton = new SingletonEager();
+
+}
+```
+从上述代码中我们知道，只有一个静态的变量，但是，如果客户端使用`new`操作符实例化，就会生成其它对象。为了避免使用构造方法实例化，改造如下代码
+```
+public class SingletonEager {
+    public static SingletonEager singleton = new SingletonEager();
+
+    private SingletonEager(){}
+
+}
+
+```
+OK，将构造方法私有，其它类不可以再实例化，这种方式可以确保一个类只有一个实例，但是众所周知，提供对类成员变量直接访问的方式不是很友好，需要提供一个方法供其它类访问，示例如下：
+````
+/**
+ * 饿汉式单例
+ * Created by wds on 2015/11/15.
+ */
+public class SingletonEager {
+    private static final SingletonEager singleton = new SingletonEager();
+
+    private SingletonEager() {
+        //不做任何操作
+    }
+
+    public static SingletonEager getSingleton() {
+        return singleton;
+    }
+}
+```
+到目前为止，这个就是单例类，该类可以保证只有一个对象被创建，即使在多个请求的情况下，也只有一个同样的实例化对象被创建。
+
+该方法也会带来另外一个问题，当该类被加载的时候就立即实例化，即使该类从来没有被调用过也是如此，这就会导致一个无用的类一直驻留在内存中。
+
+最适合的方法是当对象需要时才创建，因此，我们在第一次调用的时候创建对象并在后续的调用中返回已经成功创建的对象。示例如下：
+```
+package com.wds.designpattern.singleton;
+
+/**
+ * Lazy模式，线程不安全
+ * Created by wds on 2015/11/15.
+ */
+public class SingletonLazy {
+    private static SingletonLazy singleton = null;
+
+    private SingletonLazy() {
+        //不做任何操作
+    }
+
+    /**
+     * 非线程安全
+     * @return 单例对象
+     */
+    public static SingletonLazy getSingleton() {
+        if (singleton == null) {
+            singleton = new SingletonLazy();
+        }
+        return singleton;
+    }
+}
+
+```
+在`getSingleton()`方法中，我们检查静态变量`singleton`为null时，我们再实例化对象并返回。在第一次调用时`singleton`为null，我们会创建对象并在后续的调用时返回同样的对象。
+
+看上去不错，但是该代码会在多线程环境下运行异常。假设有两个线程同时访问该类，线程t1在第一次调用`getSingleton`方法，检查到变量`singleton`为null，之后因某些原因被中断。而另一个线程t2成功调用了`getSingleton`方法，检查并创建了对象。线程t1醒来，它也会创建对象，此时就会有两个对象被创建。
+
+为避免上述情况的发生，使用`synchronized`关键字保护`getSingleton`方法。通过这种方式，我们强迫每个线程在访问此方法之前必须等待轮候。因此同一时刻不会有两个线程同时访问。同步的方式需要一定代价，即性能的降低，但是不会引用应用程序的异常。示例代码如下：
+```
+package com.wds.designpattern.singleton;
+
+/**
+ * 线程安全
+ * Created by wds on 2015/11/15.
+ */
+public class SingletonLazyMultithread {
+    private static SingletonLazyMultithread singleton = null;
+
+    private SingletonLazyMultithread() {
+        //不做任何操作
+    }
+
+    public static synchronized SingletonLazyMultithread getSingleton() {
+        if (singleton == null) {
+            singleton = new SingletonLazyMultithread();
+        }
+        return singleton;
+    }
+}
+
+```
+
+假如使用`synchronized`同步关键字，有另外一种“双检查锁”的技术，可以减少同步的代码块。使用双检查锁技术，首先检查类有被实例化，如果没有就同步，如此一样，我们仅仅是在第一次调用时同步。示例代码如下：
+
+```
+package com.wds.designpattern.singleton;
+
+/**
+ * double check
+ * Created by wds on 2015/11/15.
+ */
+public class SingletonLazyDoubleCheck {
+    private static SingletonLazyDoubleCheck singleton = null;
+
+    private SingletonLazyDoubleCheck() {
+        //不做任何操作
+    }
+
+    public static SingletonLazyDoubleCheck getSingleton() {
+        if (singleton == null) {
+            synchronized (SingletonLazyDoubleCheck.class) {
+                singleton = new SingletonLazyDoubleCheck();
+            }
+        }
+        return singleton;
+    }
+}
+
+```
+除此之外，还有其他方法可以破坏单例模式：
+> 1、类被序列代
+> 2、克隆
+> 3、反射
+> 4、被多个类加载器加载
+
+下面的示例代码显示的如何防止上述情况的发生
+```
+package com.wds.designpattern.singleton;
+
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+
+/**
+ * 1、序列化
+ * 2、clonable
+ * 3、反射
+ * 4、多个classloader
+ * Created by wds on 2015/11/15.
+ */
+public class Singleton implements Serializable {
+    private static Singleton singleton = new Singleton();
+
+    private Singleton() {
+        if (singleton != null) {
+            throw new IllegalStateException("Aleady created");
+        }
+    }
+
+    public static Singleton getSingleton() {
+        return singleton;
+    }
+
+    private Object readResolve() throws ObjectStreamException {
+        return singleton;
+    }
+
+    private Object writeReplace() throws ObjectStreamException {
+        return singleton;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException("Singleton, cannot be clonned");
+    }
+
+    private static Class getClass(String className) throws ClassNotFoundException {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if (classLoader == null) {
+            classLoader = Singleton.class.getClassLoader();
+        }
+        return (classLoader.loadClass(className));
+    }
+}
+
+
+```
+* 实现`readResolve`和`writeReplace`方法，并在这两个方法中返回实例代的对象。
+* 实现`clone`方法，在此方法中抛出异常。
+* 在构建方法中增加判断条件，实例化时抛出异常。
+* 防止类加载实例代，实现`getClass`方法 ，该方法中关系了当前线程的类加载器，假如当前线程的类加载器为null，则使用同样的类加载器加载
+
+尽管我们使用多种实现技术，但有一种简便的实现方式创建单例类，自JDK1.5以来，可以使用枚举的方式实现单例，`Enum`常量是一种static和final的，并且一经创建，不可变更。示例如下：
+```
+package com.wds.designpattern.singleton;
+
+/**
+ * Created by wds on 2015/11/15.
+ */
+public class SingletonEnum {
+    public enum SingleEnum {
+        SINGLETON_ENUM;
+    }
+}
+
+```
+
+当试图实例化一个`Enum`对象时，会出现编译错误，因为`Enum`静态加载，并且线程安全，clone的方法也是final的，保证了枚举的常量不可被克隆的。`Enum`继承了serializable，序列化机制保证了在反序列机时不会创建两个相同的实例。通过反射实现实例化也是被禁止的，这些机制都保证了不会有多个枚举的实例被创建。
