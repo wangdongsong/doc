@@ -38,5 +38,5 @@ CPU资源，而暂停执行应用。在CPU密集型应用中，CMS比并行GC有
 上面日志的第一个事件是新生代GC，让我们从上段日志中分析GC的行为。
 
 <code>
-2015-05-26T16:23:07.219-0200<sup>1</sup> : 64.3222:[GC3(Allocation Failure4) 64.322: [ParNew5: 613404K->68068K6(613440K) 7, 0.1020465 secs8] 10885349K->10880154K 9(12514816K)10, 0.1021309 secs11][Times: user=0.78 sys=0.01, real=0.11 secs]12
+  2015-05-26T16:23:07.219-0200<sup>1</sup> : 64.322<sup>2</sup>:[GC<sup>3</sup>(Allocation Failure<sup>4</sup>) 64.322: [ParNew<sup>5</sup>: 613404K->68068K<sup>6</sup>(613440K)<sup>7</sup>, 0.1020465 secs<sup>8</sup>] 10885349K->10880154K<sup>9</sup>(12514816K)<sup>10</sup>, 0.1021309 secs<sup>11</sup>][Times: user=0.78 sys=0.01, real=0.11 secs]<sup>12</sup>
 </code>
