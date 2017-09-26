@@ -47,3 +47,5 @@ CPU资源，而暂停执行应用。在CPU密集型应用中，CMS比并行GC有
 2、64.322 - GC开始时间，相对于JVM启动后的过去64.322秒，以秒为单位。  
 3、GC - 区分FullGC和Minor GC，本次是MinorGC  
 4、Allocation Failure - 收集原因，此场景下，因为在新生代中无法分配到请求的内存触发新生代GC。  
+5、ParNew - 收集器名字，说明在新生代中采用并发标记-复制有Stop-the-world的收集器，设计它的目标是与老年代CMS收集器一起工作。  
+
