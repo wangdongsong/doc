@@ -48,4 +48,5 @@ CPU资源，而暂停执行应用。在CPU密集型应用中，CMS比并行GC有
 3、GC - 区分FullGC和Minor GC，本次是MinorGC  
 4、Allocation Failure - 收集原因，此场景下，因为在新生代中无法分配到请求的内存触发新生代GC。  
 5、ParNew - 收集器名字，说明在新生代中采用并发标记-复制有Stop-the-world的收集器，设计它的目标是与老年代CMS收集器一起工作。  
+6、613404K->68068K - 新生代在收集之前和之后的所占大小。  
 
