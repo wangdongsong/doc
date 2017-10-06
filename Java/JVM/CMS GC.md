@@ -62,4 +62,4 @@ CPU资源，而暂停执行应用。在CPU密集型应用中，CMS比并行GC有
 从上面的日志中，我们可以分析出得，收集之前总使用堆是10885349K，新生代总大小613404K。说明老年代大小为10271945K。收集之后，新生代占用大小减少了
 545336K，但是总堆大小只减少了5195K，说明有540141K(545336-5195)的对象从新代升级到了老年年。
 
-https://github.com/wangdongsong/doc/blob/master/Java/JVM/ParallelGC-in-Young-Generation-Java.jpg
+![堆在GC前后的变化](ParallelGC-in-Young-Generation-Java.jpg)
