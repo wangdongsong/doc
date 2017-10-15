@@ -69,3 +69,18 @@ CPU资源，而暂停执行应用。在CPU密集型应用中，CMS比并行GC有
 
 到此，已能阅读Minor GC的日志文件，本节介绍完全不同的垃圾收集事件的日志文件。下文为老年代CMS GC各个不同阶段的日志文件，我们一一介绍，并了解日志内容，下面为事个CMS垃圾收集日志的完整内容。
 
+
+```
+2015-05-26T16:23:07.321-0200: 64.425: [GC (CMS Initial Mark) [1 CMS-initial-mark: 10812086K(11901376K)] 10887844K(12514816K), 0.0001997 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
+2015-05-26T16:23:07.321-0200: 64.425: [CMS-concurrent-mark-start]
+2015-05-26T16:23:07.357-0200: 64.460: [CMS-concurrent-mark: 0.035/0.035 secs] [Times: user=0.07 sys=0.00, real=0.03 secs]
+2015-05-26T16:23:07.357-0200: 64.460: [CMS-concurrent-preclean-start]
+2015-05-26T16:23:07.373-0200: 64.476: [CMS-concurrent-preclean: 0.016/0.016 secs] [Times: user=0.02 sys=0.00, real=0.02 secs]
+2015-05-26T16:23:07.373-0200: 64.476: [CMS-concurrent-abortable-preclean-start]
+2015-05-26T16:23:08.446-0200: 65.550: [CMS-concurrent-abortable-preclean: 0.167/1.074 secs] [Times: user=0.20 sys=0.00, real=1.07 secs]
+2015-05-26T16:23:08.447-0200: 65.550: [GC (CMS Final Remark) [YG occupancy: 387920 K (613440 K)]65.550: [Rescan (parallel) , 0.0085125 secs]65.559: [weak refs processing, 0.0000243 secs]65.559: [class unloading, 0.0013120 secs]65.560: [scrub symbol table, 0.0008345 secs]65.561: [scrub string table, 0.0001759 secs][1 CMS-remark: 10812086K(11901376K)] 11200006K(12514816K), 0.0110730 secs] [Times: user=0.06 sys=0.00, real=0.01 secs]
+2015-05-26T16:23:08.458-0200: 65.561: [CMS-concurrent-sweep-start]
+2015-05-26T16:23:08.485-0200: 65.588: [CMS-concurrent-sweep: 0.027/0.027 secs] [Times: user=0.03 sys=0.00, real=0.03 secs]
+2015-05-26T16:23:08.485-0200: 65.589: [CMS-concurrent-reset-start]
+2015-05-26T16:23:08.497-0200: 65.601: [CMS-concurrent-reset: 0.012/0.012 secs] [Times: user=0.01 sys=0.00, real=0.01 secs]
+```
