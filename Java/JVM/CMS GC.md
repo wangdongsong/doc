@@ -84,3 +84,6 @@ CPU资源，而暂停执行应用。在CPU密集型应用中，CMS比并行GC有
 2015-05-26T16:23:08.485-0200: 65.589: [CMS-concurrent-reset-start]
 2015-05-26T16:23:08.497-0200: 65.601: [CMS-concurrent-reset: 0.012/0.012 secs] [Times: user=0.01 sys=0.00, real=0.01 secs]
 ```
+
+
+特别说明：在真实的场景中，新生代的Minor GC可以在老年代并发收集期间的任何时间执行。此场景下的Minor GC记录在之前章节的Minor GC事件日志中类似。  
