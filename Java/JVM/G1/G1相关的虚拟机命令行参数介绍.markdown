@@ -36,3 +36,52 @@ GC会收集所有的Region，直到剩余的值达到该参数设定的值，就
 设置并行循环之后需要有多少个混合GC启动，默认值为8个。  
 
 老年代Region的回收时间通常会比新生代时间长，所以该参数设置允许更多的混合GC同时回收老年代，同样，增大该参数也会增大GC的启动时间。如果混合GC中断应用的时间太长，可以考虑调大该参数。
+
+
+### -XX:+G1PrintGregionLivenessInfo
+
+该参数需和-XX:+UnlockDiagnosticVMOptions配合启动，它们本身属于VM的调试信息。如果开启，VM会打印堆内存里每个Region的存活对象信息，该信息包含对象的具体使用、可记忆集合大小
+以及很价值的GC效率的统计值。不利方面是日志数据会比较大。
+
+### -XX:G1Reservepercent
+
+G1为了保留一些空间用于年代之间的提升，默认值为堆空间的10%。注意这个空间保留后就不会用在年轻代。  
+
+如果应用有比较大的堆内存空间、比较多的大对象存活，建议减少一些保留空间，这样会给年轻代更多的预留空间、GC之间的会有更长的间隔时间，对于性能提升有帮助。
+
+
+### -XX:+G1SummarizeRSetStats
+
+该参数是虚拟机的诊断调试参数，需要和-XX:+UnlockDiagnosticVMOptions配合启用。如果开启，会在虚拟机退出时打印可记忆集合的详细统计信息。如果和-XX:G1SummarizeRSetStatsPeriod参数配合使用，统计信息会周期性输出。
+如果怀疑和可记忆集合有关的问题，应用使用此参数配合分析。
+
+### -XX:G1SummarizeRSetStatsPeriod
+
+该参数是虚拟机的诊断调试参数，需要和-XX:+UnlockDiagnosticVMOptions配合启用，并且只能和-XX:+G1SummarizeRSetStats一起使用。  
+
+该参数设置为非零值n，虚拟机将打印每n次GC后可记忆集合的详细统计信息。GC打印此信息成本较高，周期性打印能分析出可记忆集合的使用趋势。  
+
+### -XX:G1TraceConcRefinement
+
+该参数是虚拟机的诊断调试参数，需要和-XX:+UnlockDiagnosticVMOptions配合启用。
+
+该参数启用后，多线程的并发执行优化的具体信息会被输出到日志信息中。日志会记录多线程并发执行优化的开始和结束，有利于分析多线程并发执行优化导致的问题。  
+
+### -XX:G1UseAdaptiveConcRefinement
+
+
+### -XX:GCTimeRatio
+
+
+### -XX:+HeapDumpBeforeFullGC
+
+### -XX:+HeapDumpAfterFullGC
+
+
+### -XX:InitiatingHeapOccupancyPercent
+
+
+### -XX:+UseStringDeduplication
+
+
+
