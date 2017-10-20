@@ -69,11 +69,18 @@ G1为了保留一些空间用于年代之间的提升，默认值为堆空间的
 
 ### -XX:G1UseAdaptiveConcRefinement
 
+该参数默认启用，虚拟机会在每次GC之后动态重新计算-XX:G1ConcRefinementGreenZone、-XX:G1ConcRefinementYellowZone和-XX:G1ConcRefinementRedZone 3个参数的值。
 
 ### -XX:GCTimeRatio
 
+GC的某些阶段是stop-the-world，即停止应用线程。该参数是指计算花在Java应用线程和花在GC线程上的时间比率，默认为9。
+
+该参数主要目的是让启用可以控制花在应用上的时间。G1的计算公式：100/(1+GCTimeRatio)，默认值为9，则最多10%的时间花在GC上。
+
 
 ### -XX:+HeapDumpBeforeFullGC
+
+该参数让虚拟机在每次FullGC之前创建hprof文件，文件位于虚拟机的启动目录中。配合-XX:+HeapDumpAfterFullGC参数，可以比较FullGC前后的hprof文件的差异。
 
 ### -XX:+HeapDumpAfterFullGC
 
