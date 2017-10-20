@@ -84,9 +84,19 @@ GC的某些阶段是stop-the-world，即停止应用线程。该参数是指计�
 
 ### -XX:+HeapDumpAfterFullGC
 
+该参数让虚拟机在每次FullGC之后创建hprof文件，文件位于虚拟机的启动目录中。配合-XX:+HeapDumpBeforeFullGC参数，可以比较FullGC前后的hprof文件的差异。
 
 ### -XX:InitiatingHeapOccupancyPercent
 
+G1内部并行循环启动的设置值，默认为堆内存的45%。可以理解为老年代占用的空间，GC收集后要低于45的占用率。  
+
+该值决定在什么时间启动老年代的并行回收循环，该循环从初始化并行回收开始，可以避免FullGC的发生。如果老年代用尽导致FullGC，可调低该值，在更早期启用并行回收循环，避免可用空间用尽。  
+
+如果没有FullGC，可调高该值，减少并行回收循环，提高吞吐量。G1的并发循环需要占用应用程序的CPU来执行回收操作，因此，频繁地并发回收会应用程序的吞吐量。
+
+但是，早启用回收循环要估于晚启动，如果回收循环启动太晚，可能会导致超出估计的冗长GC暂停。  
+
+其它相关信息可参数-XX:+G1UseAdaptiveIHOP
 
 ### -XX:+UseStringDeduplication
 
