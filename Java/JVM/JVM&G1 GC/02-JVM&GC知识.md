@@ -170,4 +170,22 @@ Parallel收集器也提供老年代Parallel Old收集器，老年代采用标记
 **-XX:+UseParallelGC:** 年轻代使用并行回收收集器，老年代使用串行收集器。
 **-XX:+UseParallelOldGC:** 年轻代和老年代都是使用并行回收收集器。
 
+### CMS收集器
 
+Concurrent-Mark-Sweep，并行回收收集器，用于老年代，低延迟，采用标记-清除算法，也会因为有短暂的Stop-the-World机制面出现短暂的暂停。
+
+四个阶段：
+* 初始标记（Init-Mark）——有Stop-the-world
+* 并发标记（Concurrent-Mark）
+* 再次标记（Remark）——有Stop-the-world
+* 并发清除（Concurrent-Sweep）
+
+初始标记：应用程序暂停，主要要任务是标记出内存中那些被根对象集合所连接的目标对象是否可达，一旦标记完成就恢复被暂停的应用线程。
+并发标记：主要任务是不可达对象标记为垃圾对象。
+再次标记：应用程序暂停，主要任务是确认这些垃圾对象能够被正确的标记。
+并发清除：执行内存回收，释放内存。
+
+**-XX:CMSInitiatingOccupancyFraction:** 默认值68（低版本），JDK6及以上版本为92%。当老年代空间使用率达阀值后执行CMS回收。
+**-XX:UseCMSCompactAtFullCollection:** CMS在垃圾收集完成后，进行一次内存碎片整理。碎片整理不是并发进行的。
+**-XX:CMSFullGCsBeforeCompaction:** 设定进行多少次CMS回收后，时行一次内存压缩。
+**-XX:ParallelGCThreads:** 最好与CPU数量相当，默认情况下CPU数量小于8个，ParallelGCThreads的值等CPU数量，大于8个时ParallelGCThreads的值等于3+[5*CPU数量] / 8]
