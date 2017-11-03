@@ -151,15 +151,15 @@ ParNew收集器是Serial收集器的多线程版本，采取复制算法、Stop-
 
 ParNew收集器的优势在于多CPU、多核心环境中，并且在某些注重低延迟的应用场景下，ParNew收集器和CMS收集器的组合模式，在Server模式下的内存回收效果很好。  
 
-**-XX:+UseParNewGC:** 指定使用ParNew收集器执行内存回收任务，年轻代使用并行收集器，老年代使用串行收集器。  
+**-XX:+UseParNewGC:**  指定使用ParNew收集器执行内存回收任务，年轻代使用并行收集器，老年代使用串行收集器。  
 
 ### Parallel收集器
 
 Parallel收集拥有ParNew收集并行回收外，可以控制程序的吞吐量大小，同样采用复制算法（年轻代）、并行回收、Stop-the-World机制。也被称为吞吐量优先垃圾收集器。  
 
-**-XX:GCTimeRatio：** 设置执行内存回收时间所占JVM运行总时间的比例，也就是控制GC频率，公式为1/(1+N)，默认值为99，即将1%的时间用于执行垃圾回收。  
-**-XX:MaxGCPauseMills：**设置执行内存回收时“Stop-the-World”机制的暂停时间阀值，设定后，JVM尽可能在此时间范围内完成内存回收。  
-**-XX:ParallelGCThreads：**设置垃圾回收时线程数量。  
+**-XX:GCTimeRatio：** 设置执行内存回收时间所占JVM运行总时间的比例，也就是控制GC频率，公式为1/(1+N)，默认值为99，即将1%的时间用于执行垃圾回收。   
+**-XX:MaxGCPauseMills：** 设置执行内存回收时“Stop-the-World”机制的暂停时间阀值，设定后，JVM尽可能在此时间范围内完成内存回收。   
+**-XX:ParallelGCThreads：** 设置垃圾回收时线程数量。  
 
 **注意：** 吞吐量与低延迟本身矛盾，吞吐量优先，则降低内存回收的执行频率，但会导致GC需要更长的暂停时间执行内存回收。相反，低延迟优先，降低每次执行内存回收的暂停时间，只能频繁的执行内存回收，但又引起年轻代内存的缩减和导致程序吞吐量下降。  
 
@@ -175,10 +175,10 @@ Parallel收集器也提供老年代Parallel Old收集器，老年代采用标记
 Concurrent-Mark-Sweep，并行回收收集器，用于老年代，低延迟，采用标记-清除算法，也会因为有短暂的Stop-the-World机制面出现短暂的暂停。
 
 四个阶段：
-* 初始标记（Init-Mark）——有Stop-the-world
-* 并发标记（Concurrent-Mark）
-* 再次标记（Remark）——有Stop-the-world
-* 并发清除（Concurrent-Sweep）
+* 初始标记（Init-Mark）——有Stop-the-world  
+* 并发标记（Concurrent-Mark）  
+* 再次标记（Remark）——有Stop-the-world  
+* 并发清除（Concurrent-Sweep）  
 
 初始标记：应用程序暂停，主要要任务是标记出内存中那些被根对象集合所连接的目标对象是否可达，一旦标记完成就恢复被暂停的应用线程。  
 并发标记：主要任务是不可达对象标记为垃圾对象。  
@@ -189,4 +189,4 @@ Concurrent-Mark-Sweep，并行回收收集器，用于老年代，低延迟，�
 **-XX:CMSInitiatingOccupancyFraction:** 默认值68（低版本），JDK6及以上版本为92%。当老年代空间使用率达阀值后执行CMS回收。  
 **-XX:UseCMSCompactAtFullCollection:** CMS在垃圾收集完成后，进行一次内存碎片整理。碎片整理不是并发进行的。  
 **-XX:CMSFullGCsBeforeCompaction:** 设定进行多少次CMS回收后，时行一次内存压缩。  
-**-XX:ParallelGCThreads:** 最好与CPU数量相当，默认情况下CPU数量小于8个，ParallelGCThreads的值等CPU数量，大于8个时ParallelGCThreads的值等于3+[5*CPU数量] / 8]  
+**-XX:ParallelGCThreads:** 最好与CPU数量相当，默认情况下CPU数量小于8个，ParallelGCThreads的值等CPU数量，大于8个时ParallelGCThreads的值等于3+[5*CPU数量] / 8]   
