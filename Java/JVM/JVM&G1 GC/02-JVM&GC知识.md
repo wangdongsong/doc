@@ -190,3 +190,14 @@ Concurrent-Mark-Sweep，并行回收收集器，用于老年代，低延迟，�
 **-XX:UseCMSCompactAtFullCollection:** CMS在垃圾收集完成后，进行一次内存碎片整理。碎片整理不是并发进行的。    
 **-XX:CMSFullGCsBeforeCompaction:** 设定进行多少次CMS回收后，时行一次内存压缩。  
 **-XX:ParallelGCThreads:** 最好与CPU数量相当，默认情况下CPU数量小于8个，ParallelGCThreads的值等CPU数量，大于8个时ParallelGCThreads的值等于3+[5*CPU数量] / 8]   
+
+
+### G1收集器
+
+G1年轻代收集阶段是一个并行的独占收集器，与其它GC一样。当年轻代收集时，整个年轻代会被回收，所有的应用线程会被中断，G1 GC启用多线程执行年轻代回收。老年代回收器不需要整个老年代回收，一次只需要扫描或回收一小部分老年代的Region即可。
+
+#### 全垃圾收集（Full Gargage Collection）
+
+G1的FullGC与SerialGC的Full采用相同算法，会对整个Java堆进行压缩，G1的FullGC是单线程的，会引起较长的停顿时间。
+
+#### 并行循环（Concurrent Cycle）
