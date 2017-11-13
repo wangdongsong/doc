@@ -13,10 +13,13 @@ Heap
   object space 699392K, 0% used [0x00000000c0000000,0x00000000c0000000,0x00000000eab00000)  
  Metaspace       used 5316K, capacity 5566K, committed 5888K, reserved 1056768K  
   class space    used 591K, capacity 667K, committed 768K, reserved 1048576K  
-</code>
-  
-  
-<strong>1，GC的命名</strong>：因GC收集器不同而不同，具体如下：
+</code>  
+<br>
+<br>
+<br>
+<br>
+<br>  
+<strong>1-GC的命名</strong>：因GC收集器不同而不同，具体如下：
 
 * 串行收集器：DefNew，使用-XX:+UseSerialGC（年轻代、老年代使用串行收集器）输出的。
 * 并行收集器：ParNew，使用-XX:+UseParNewGC（年轻代使用并行收集器，老年代使用串行收集器），或使用-XX:UseConcMarkSweepGC（年轻代使用并行收集器，老年代使用CMS）运行后输出的。
