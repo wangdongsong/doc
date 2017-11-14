@@ -20,6 +20,8 @@ Heap
 <br>
 <br>  
 <strong>1-GC的命名</strong>：因GC收集器不同而不同，具体如下：
-
+<br>
 * 串行收集器：DefNew，使用-XX:+UseSerialGC（年轻代、老年代使用串行收集器）输出的。
 * 并行收集器：ParNew，使用-XX:+UseParNewGC（年轻代使用并行收集器，老年代使用串行收集器），或使用-XX:UseConcMarkSweepGC（年轻代使用并行收集器，老年代使用CMS）运行后输出的。
+* PSYoungGen: 使用-XX:+UseParallelOldGC（年轻代、老年都使用并行回收收集器）或使用-XX:+UseParallelGC（年轻代使用并行回收收集器，老年代使用串行回收回收集器）
+* Garbage-First heap：使用-XX:+UseG1GC(G1收集器时输出）
