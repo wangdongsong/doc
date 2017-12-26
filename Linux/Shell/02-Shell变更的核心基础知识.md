@@ -15,3 +15,25 @@
 * 反引号：引用命令，可以使用反引号``或$()
 
 当变量后面连接有其它字符的时候，必须给变量加上大括号{}，例如${dbname}_tname。
+
+```
+[user@host shell]$ echo "Today is $(date +%F)"
+Today is 2017-12-26
+[user@host shell]$ echo "Today is `date +%F`"
+Today is 2017-12-26
+[user@host shell]$ echo "Today is 'date +%F'"
+Today is 'date +%F'
+
+[user@host shell]$ ETT="lance"
+[user@host shell]$ echo $ETT | awk '{print $0}'
+lance
+[user@host shell]$ echo "$ETT" | awk '{print $0}'
+lance
+[user@host shell]$ echo `pwd` | awk '{print $0}'
+/wds/lance/shell
+[user@host shell]$ echo `$ETT` | awk '{print $0}'
+-bash: lance: command not found
+
+```
+
+**说明：** awk比较特殊，通常先使用echo加符号输出变量，然后通过管道给awk。
