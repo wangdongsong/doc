@@ -30,3 +30,19 @@ $?返回值的用法：
 * 判断命令、脚本或函数等程序是否执行成功
 * 若在脚本中调用exit 数字，则返回的这个数字给$?变量
 * 如果是在函数里，则通过return 数字，把这个数字以函数返回值的形式传给$?
+
+$$：获取当前进程号，示例：多次执行某一个脚本后进程只有一个
+
+```
+#!/bin/sh
+pidpath=/tmp/tmppid.pid #记录进程号
+if [ -f "$pidpath" ] #判断文件是否存在
+    then
+        #echo "kill" `cat $pidpath` 
+        kill `cat $pidpath` >/dev/null 2>&1 #杀死进程
+	       rm -f $pidpath #删除文件
+fi
+echo $$ > $pidpath #重写文件
+sleep 60 #暂停60s，模拟守护进程
+
+```
