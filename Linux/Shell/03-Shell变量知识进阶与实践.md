@@ -10,7 +10,7 @@
 
 **备注：** $*和$@不加引号两者无区别，加引号时$*为一个串，$@为单个串。
 
-```
+```Linux
 dirname $0 #文件路径
 basename $0 #文件名
 [ $# -ne 2 ] && { #参数个数不等于2
@@ -33,7 +33,7 @@ $?返回值的用法：
 
 $$：获取当前进程号，示例：多次执行某一个脚本后进程只有一个
 
-```
+```Linux
 #!/bin/sh
 pidpath=/tmp/tmppid.pid #记录进程号
 if [ -f "$pidpath" ] #判断文件是否存在
@@ -46,3 +46,38 @@ echo $$ > $pidpath #重写文件
 sleep 60 #暂停60s，模拟守护进程
 
 ```
+
+## bash Shell内置变量命令
+
+### echo 屏幕上输出信息
+
+参数选项：
+
+* -n：不换行输出内容
+* -e：解析转义字符
+* \n：换行
+* \r：回车
+* \t：制表符
+* \b：退格
+* \v：纵向制表符
+
+### eval
+### exec
+### read
+### shift
+### exit
+
+## Shell变量子串知识及实践
+
+### 变量子串介绍
+
+* ${parameter}：返回变量内容
+* ${#parameter}：返回变量内容的长度（按字符），也适用特殊字符
+* ${parameter:offset}：在变量中，从位置offset之后开始提取子串到结尾
+* ${parameter:offset:length}：在变量中，从位置offset之后开始提取长度length的子串
+* ${parameter#word}：从变量开头开始删除最短匹配的word子串
+* ${parameter##word}：从变量开头开始删除最长匹配的word子串
+* ${parameter%word}：从变量结尾开始删除最短匹配的word子串
+* ${parameter%%word}：从变量结尾开始删除最长匹配的word子串
+* ${parameter/pattern/string}：使用string代替第一个匹配的pattern
+* ${parameter//pattern/string}：使用string代替所有匹配的pattern
