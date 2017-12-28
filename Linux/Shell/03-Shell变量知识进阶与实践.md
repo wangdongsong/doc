@@ -81,3 +81,28 @@ sleep 60 #暂停60s，模拟守护进程
 * ${parameter%%word}：从变量结尾开始删除最长匹配的word子串
 * ${parameter/pattern/string}：使用string代替第一个匹配的pattern
 * ${parameter//pattern/string}：使用string代替所有匹配的pattern
+
+**变量长度**
+
+```Linux
+[user@host shell]$ str="I am lance"
+[user@host shell]$ echo ${#str}
+10
+[user@host shell]$ echo $str | wc -l
+1
+[user@host shell]$ echo ${str} | wc -l
+1
+[user@host shell]$ expr length "$str"
+10
+[user@host shell]$ echo "$str" | awk '{print length($0)}'
+10
+[user@host shell]$ echo ${#str} #性能最好
+10
+```
+
+## Shell特殊扩展变量
+
+* ${parameter:-word}：如果parameter的变量值为空或未赋值，则返回word字符串并替代变量的值
+* ${parameter:=word}：如果parameter的变量值为空或未赋值，则设置该变量的值为word
+* ${parameter:?word}：如果parameter的变量值为空或未赋值，则word字符串被作为标准错误输出，否则输出变量的值
+* ${parameter:+word}：如果parameter的变量值为空或未赋值，什么都不做，否则word字符串将变量的值
