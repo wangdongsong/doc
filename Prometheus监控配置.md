@@ -1,5 +1,6 @@
 
 ## 重写IP
+<pre>
 scrape_configs:
   - job_name: 'test-server-metrics'
     scrape_interval: 15s
@@ -17,3 +18,4 @@ scrape_configs:
         regex: (.*)
         target_label: __address__
         replacement: ${1}:30074
+</pre>
