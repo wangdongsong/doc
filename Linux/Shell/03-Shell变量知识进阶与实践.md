@@ -104,5 +104,23 @@ sleep 60 #暂停60s，模拟守护进程
 
 * ${parameter:-word}：如果parameter的变量值为空或未赋值，则返回word字符串并替代变量的值
 * ${parameter:=word}：如果parameter的变量值为空或未赋值，则设置该变量的值为word
-* ${parameter:?word}：如果parameter的变量值为空或未赋值，则word字符串被作为标准错误输出，否则输出变量的值
+* ${parameter:?word}：如果parameter的变量值为空或未赋值，则word字符串被作为标准错误输出，否则输出变量的值，可用于变量未定义提示错误
 * ${parameter:+word}：如果parameter的变量值为空或未赋值，什么都不做，否则word字符串将变量的值
+
+**注意：**冒号可以取消
+
+```Linux
+#当path变更未定义，提示not defined
+[user@host ~]$ echo ${path:?not defined}
+-bash: path: not defined
+
+#生产案例，删除七天前的数据
+#当path未定义时，删除/tmp目录下的文件，不使用此方法时，会因path未定义而异常
+#-type f，表示只找file，文件类型的，目录和其他字节啥的不要 
+#find ... -exec rm {} \; 
+#find ... | xargs rm -rf 
+#
+#两者都可以把find命令查找到的结果删除，其区别简单的说是前者是把find发现的结果一次性传给exec选项，这样当文件数量较多的时候，就可能会出现“参数太多”之#类的错误，相比较而言，后者就可以避免这个错误，因为xargs命令会分批次的处理结果。这样看来，“find ... | xargs rm -rf”是更通用的方法，推荐使用！
+
+find ${path-/tmp} -name "*.tar.gz" -type f -mtime +7 | xargs rm -rf
+```
