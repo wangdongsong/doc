@@ -31,9 +31,11 @@
 
 ### 整数二元比较操作符
 
-* -eq：==或=，相等，equal
-* -ne：!=，不相等
-* -gt：>，大于，greater than
-* -ge：>=，大于等于，greater equal
-* -lt：<，小于，less than
-* -le：<=，小于等于，less equal
+|[]及test中使用的比较符号|(())和[[]]中使用的比较符号|说明|
+|--|--|--|
+|-eq|==或=|相等，equal|
+|-ne|!=|不相等|
+|-gt|>|大于，greater than|
+|-ge|>=|大于等于，greater equal|
+|-lt|<|小于，less than|
+|-le|<=|小于等于，less equal|
