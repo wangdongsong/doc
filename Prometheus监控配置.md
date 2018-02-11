@@ -19,3 +19,6 @@ scrape_configs:
         target_label: __address__
         replacement: ${1}:30074
 </pre>
+
+
+updated
